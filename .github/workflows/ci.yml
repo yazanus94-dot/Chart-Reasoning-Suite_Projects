@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        domain:
+          - biocharts
+          - loadcharts
+          - spccharts
+    name: pytest (${{ matrix.domain }})
+    env:
+      DOMAIN_DIR: ${{ matrix.domain == 'biocharts' && 'biomedical/biomedical-chart-questions' || matrix.domain == 'loadcharts' && 'loadtest/loadtest-chart-questions' || 'spc-quality/spc-quality-chart-questions' }}
+      PKG: ${{ matrix.domain }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r "$DOMAIN_DIR/requirements.txt"
+
+      - name: Generate charts + questions
+        run: python -m $PKG.cli
+        working-directory: ${{ env.DOMAIN_DIR }}
+
+      - name: Run tests
+        run: python -m pytest -q
+        working-directory: ${{ env.DOMAIN_DIR }}
+
+      - name: Upload generated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.domain }}-generated
+          path: |
+            ${{ env.DOMAIN_DIR }}/output
+            ${{ env.DOMAIN_DIR }}/images
+          retention-days: 14

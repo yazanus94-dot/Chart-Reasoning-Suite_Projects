@@ -1,26 +1,53 @@
-# Chart-Reasoning-Suite – Domain-Specific Question Sets for Chart Reasoning
+# Chart-Reasoning-Suite — Domain-Specific Question Sets for Chart Reasoning
 
-## 👋 Overview
+[![CI](https://github.com/yazanus94-dot/Chart-Reasoning-Suite_Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/yazanus94-dot/Chart-Reasoning-Suite_Projects/actions/workflows/ci.yml)
+![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
+![pytest](https://img.shields.io/badge/tests-37%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
+## Overview
 
 This repository provides three curated sets of chart-based questions for evaluating
 and stress-testing chart reasoning across distinct domains: **Biomedical**,
 **Load Testing**, and **SPC / Quality**.
 
-Each set is stored as a standalone question collection of question–answer pairs
-(or question-only prompts, depending on intended use). The suite is intended
+Each set is a self-contained project: a CLP generator draws seeded synthetic
+charts, computes ground-truth answers in code, runs it through an ambiguity
+check, and emits machine-readable question/answer files. The suite is intended
 for researchers, developers, and educators benchmarking or fine-tuning models
 on domain-specific chart interpretation tasks.
 
-## 📂 Repository Contents
+## Repository Contents
 
-| Folder | Domain | Description |
-|--------|--------|-------------|
-| `biomedical/` | Biomedical | Chart reasoning questions based on biomedical data, assays, and patient-related visualizations. |
-| `loadtest/` | Load Testing | Questions involving load-testing metrics, performance graphs, and system behaviour charts. |
-| `spc-quality/` | SPC / Quality | Questions centred on control charts, process capability, and quality-control visualizations. |
-| `archive/` | – | Original ZIP archives (kept for provenance). |
+| Domain | Package | Contents |
+|--------|---------|----------|
+| **Biomedical** | `biocharts` | Dose–response curves with 95 % CIs, heart-rate time series, dose-vs-reduction scatter. |
+| **Load Testing** | `loadcharts` | Throughput vs response time, response-time percentiles, error rate vs concurrent users. |
+| **SPC / Quality** | `spccharts` | Shewhart control charts, Pareto charts of defect causes, process-capability histograms. |
+| `archive/` | — | Original ZIP archives, kept for provenance. |
 
-## 🚀 How to Use
+## Example
+
+![Dose–response with 95 % confidence intervals](biomedical/biomedical-chart-questions/images/fig1_dose_response_error_bars.png)
+
+> **bio-q01** — *Chart: `fig1_dose_response_error_bars.png`*
+>
+> **Q:** What is the difference in mean systolic blood-pressure reduction
+> between the 20 mg group and the placebo (0 mg) group? Give the answer in
+> mmHg to one decimal place.
+>
+> **A:** `11.6` *mmHg* — 1. Read the mean reduction for 20 mg (15.0 mmHg) and
+> placebo (3.36 mmHg). 2. Difference = 15.0 − 3.36 = **11.6**.
+>
+> *Reading-error robustness: 100 %*
+
+Every generated question carries a code-verified answer, a step-by-step
+solution, and an ambiguity check. See the full sets:
+[`biomedical`](biomedical/biomedical-chart-questions/output/questions.md) ·
+[`loadtest`](loadtest/loadtest-chart-questions/output/questions.md) ·
+[`spc-quality`](spc-quality/spc-quality-chart-questions/output/questions.md).
+
+## How to Use
 
 ```bash
 git clone https://github.com/yazanus94-dot/Chart-Reasoning-Suite_Projects.git
@@ -32,26 +59,17 @@ install its requirements, and run its CLI to (re)generate the chart images and
 the question/answer files:
 
 ```bash
-# Biomedical
-cd biomedical/biomedical-chart-questions
-pip install -r requirements.txt
-python -m biocharts.cli      # draws images/, writes output/questions.md + output/answers.json
-python -m pytest -q          # 13 tests
+python -m biocharts.cli     # biomedical — draws images/, writes output/questions.md + output/answers.json
+python -m loadcharts.cli    # load testing
+python -m spccharts.cli     # SPC / quality
 
-# Load Testing
-cd ../../loadtest/loadtest-chart-questions
-pip install -r requirements.txt
-python -m loadcharts.cli     # draws images/, writes output/questions.md + output/answers.json
-python -m pytest -q          # 12 tests
-
-# SPC / Quality
-cd ../../spc-quality/spc-quality-chart-questions
-pip install -r requirements.txt
-python -m spccharts.cli      # draws images/, writes output/questions.md + output/answers.json
-python -m pytest -q          # 12 tests
+python -m pytest -q         # 37 tests across the three domains
 ```
 
-## 📝 Question Format
+Run tests per domain from inside the respective package directory, e.g.
+`cd biomedical/biomedical-chart-questions && python -m pytest -q`.
+
+## Question Format
 
 For each domain, the generated material lives in `output/`:
 
@@ -63,7 +81,7 @@ For each domain, the generated material lives in `output/`:
 All data is **synthetic (seeded)** — no real patient, employer, or client data
 is used. Questions and answers are generated and verified by code.
 
-## 📄 License
+## License
 
-Each domain set ships with its own `LICENSE` file. See the `LICENSE` inside the
-respective domain folder for details.
+MIT — one `LICENSE` at the repository root; each domain set also ships its own
+copy.
