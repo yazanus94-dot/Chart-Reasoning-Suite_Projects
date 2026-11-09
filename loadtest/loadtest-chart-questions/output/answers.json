@@ -1,0 +1,79 @@
+[
+  {
+    "id": "lt-q01",
+    "chart": "fig1_throughput_vs_response_time.png",
+    "question": "On the throughput line, at which number of virtual users does throughput first stop growing by more than 2 percent compared with the previous 10-user step?",
+    "answer": 130,
+    "unit": "users",
+    "difficulty": 2,
+    "steps": [
+      "Compare each throughput point with the previous one (10-user steps); growth = (new - old) / old.",
+      "Growth up to 120 users is above 2% at every step.",
+      "From 120 to 130 users: (481.7 - 481.9) / 481.9 = -0.0%, which is 2% or less.",
+      "So throughput first stops growing by more than 2% at 130 users."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "lt-q02",
+    "chart": "fig1_throughput_vs_response_time.png",
+    "question": "By what percentage does the average response time (right axis, in ms) increase between 100 users and 160 users? Give the answer in percent to one decimal place.",
+    "answer": 75.5,
+    "unit": "percent",
+    "difficulty": 2,
+    "steps": [
+      "Read average response time at 100 users: 159.8 ms; at 160 users: 280.5 ms.",
+      "Change = 280.5 - 159.8 = 120.7 ms.",
+      "Percentage increase = 120.7 / 159.8 x 100 = 75.5 percent."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "lt-q03",
+    "chart": "fig3_error_rate_vs_users.png",
+    "question": "What is the highest user level, in steps of 10, at which the error rate is still at or below the 1 percent SLA line?",
+    "answer": 120,
+    "unit": "users",
+    "difficulty": 1,
+    "steps": [
+      "The SLA line is at 1.0 percent error rate.",
+      "Error rate at 120 users is 0.89 percent, which is at or below the line.",
+      "Error rate at 130 users is 1.32 percent, which is above the line.",
+      "So the highest level that still meets the SLA is 120 users."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "lt-q04",
+    "chart": "fig2_response_time_percentiles.png",
+    "question": "At 120 users, how many times larger is the p99 response time than the p50 response time? Give the ratio to two decimal places.",
+    "answer": 3.75,
+    "unit": "ratio",
+    "difficulty": 2,
+    "steps": [
+      "In the grouped bars at 120 users, p99 = 509.7 ms and p50 = 135.9 ms.",
+      "Ratio = 509.7 / 135.9 = 3.75."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "lt-q05",
+    "chart": "fig1_throughput_vs_response_time.png + fig3_error_rate_vs_users.png",
+    "question": "Using the error-rate chart, find the first user level at which the error rate is above the 1 percent SLA line. How many times larger is the average response time at that level than at 10 users? Give the ratio to two decimal places.",
+    "answer": 1.63,
+    "unit": "ratio",
+    "difficulty": 3,
+    "steps": [
+      "Find the first user level where the error rate is above the SLA line: 130 users (third chart).",
+      "Read average response time at 130 users: 187.9 ms (first chart).",
+      "Read average response time at 10 users: 115.1 ms.",
+      "Ratio = 187.9 / 115.1 = 1.63 times."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  }
+]

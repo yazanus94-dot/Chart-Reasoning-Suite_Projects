@@ -1,0 +1,83 @@
+[
+  {
+    "id": "spc-q01",
+    "chart": "fig1_control_chart.png",
+    "question": "How many points on the control chart fall above the upper control limit (UCL)? Answer as a number of points.",
+    "answer": 1,
+    "unit": "points",
+    "difficulty": 1,
+    "steps": [
+      "UCL = center line + 3 sigma = 2.042 + 3 x 0.252 = 2.798 percent (limits use days 1 to 20).",
+      "Points above 2.798: day 23 (3.1 percent).",
+      "Count = 1."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "spc-q02",
+    "chart": "fig1_control_chart.png",
+    "question": "On which day is the 8th consecutive point below the center line reached? Answer as a day number.",
+    "answer": 31,
+    "unit": "day",
+    "difficulty": 3,
+    "steps": [
+      "Center line = 2.042 percent. Count consecutive points strictly below it, resetting at any point on or above it.",
+      "The last point above the line before the run is day 23; days 24 to 31 are all below.",
+      "The 8th consecutive point below the center line is day 31."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "spc-q03",
+    "chart": "fig2_pareto_defect_causes.png",
+    "question": "Starting with the largest cause, what is the smallest number of defect causes whose combined share of all defects reaches at least 80 percent? Answer as a number of causes.",
+    "answer": 3,
+    "unit": "causes",
+    "difficulty": 2,
+    "steps": [
+      "Add the bars from the largest down and track the cumulative share (the cumulative line on the right axis).",
+      "Scratches: cumulative 48 of 106 = 45.3%",
+      "Misalignment: cumulative 79 of 106 = 74.5%",
+      "Missing component: cumulative 91 of 106 = 85.8%",
+      "Wrong label: cumulative 98 of 106 = 92.5%",
+      "Porosity: cumulative 103 of 106 = 97.2%",
+      "Other: cumulative 106 of 106 = 100.0%",
+      "The 80% mark is first reached with 3 causes."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "spc-q04",
+    "chart": "fig2_pareto_defect_causes.png",
+    "question": "What percent of all defects are caused by the top two causes combined? Give the answer in percent to the nearest whole percent.",
+    "answer": 75,
+    "unit": "percent",
+    "difficulty": 2,
+    "steps": [
+      "Total defects = 106.",
+      "Top two causes = 48 + 31 = 79.",
+      "Share = 79 / 106 x 100 = 75 percent (nearest whole percent)."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  },
+  {
+    "id": "spc-q05",
+    "chart": "fig3_capability_histogram.png",
+    "question": "Using the mean and the sample standard deviation printed on the histogram and the specification limits (LSL and USL), what is the process capability index Cpk? Give the answer to two decimal places.",
+    "answer": 0.93,
+    "unit": "index",
+    "difficulty": 3,
+    "steps": [
+      "Read from the chart: mean = 50.014 mm, sample standard deviation s = 0.049 mm, LSL = 49.85 mm, USL = 50.15 mm.",
+      "Upper side: (USL - mean) / (3s) = (50.15 - 50.014) / (3 x 0.049) = 0.925.",
+      "Lower side: (mean - LSL) / (3s) = (50.014 - 49.85) / (3 x 0.049) = 1.116.",
+      "Cpk is the smaller value = 0.93."
+    ],
+    "robustness": 1.0,
+    "flags": []
+  }
+]
